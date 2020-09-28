@@ -1,0 +1,22 @@
+{
+  "name": "facebook-multimedia-extractor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wiiz83/Project-Facebook-Multimedia-Extractor.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Wiiz83/Project-Facebook-Multimedia-Extractor/issues"
+  },
+  "homepage": "https://github.com/Wiiz83/Project-Facebook-Multimedia-Extractor#readme",
+  "devDependencies": {
+    "electron": "^10.1.2"
+  }
+}
