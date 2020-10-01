@@ -81,3 +81,35 @@ try {
   // Catch Error
   // throw e;
 }
+
+const { ipcMain } = require('electron')
+
+ipcMain.on('asynchronous-message', (event, arg) => {
+  console.log(arg) // prints "ping"
+  event.reply('asynchronous-reply', 'pong')
+})
+
+ipcMain.on('getSettings', (event, arg) => {
+  console.log(arg) // prints "ping"
+  event.reply('getSettings', 'bite')
+})
+
+ipcMain.on('resultSettings', (event, arg) => {
+  console.log(arg) // prints "ping"
+  event.reply('resultSettings', 'bite')
+})
+
+ipcMain.on('synchronous-message', (event, arg) => {
+  console.log(arg) // prints "ping"
+  event.returnValue = 'pong'
+})
+
+ipcMain.on('resultSettings', (event, arg) => {
+  console.log(arg) // prints "ping"
+  event.returnValue = 'pong'
+})
+
+ipcMain.on('getSettings', (event, arg) => {
+  console.log(arg) // prints "ping"
+  event.returnValue = 'pong'
+})
