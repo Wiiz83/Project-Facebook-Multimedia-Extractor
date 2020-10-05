@@ -83,15 +83,51 @@ try {
 }
 
 const { ipcMain } = require('electron')
+const { dialog } = require('electron')
+ 
+ipcMain.on('transfert', async (event, arg) => {
+  console.log(arg);
+  console.log(toPath);
+}) 
 
-ipcMain.on('asynchronous-message', (event, arg) => {
-  console.log(arg) // prints "ping"
-  event.reply('asynchronous-reply', 'pong')
+let toPath;
+
+ipcMain.handle('select-dirs', async (event, arg) => {
+  let fromPath = await dialog.showOpenDialog(win, {
+    properties: ['openDirectory']
+  });
+  return fromPath;
+})
+
+/*
+ipcMain.on('select-dirs', async (event, arg) => {
+  dialog.showOpenDialog(win, {
+    properties: ['openDirectory']
+  }).then((filePaths) => {
+    event.sender.send('asynchronous-reply', filePaths);
+  });
+  //event.sender.send('asynchronous-reply', fromPath);
+})
+
+ipcMain.on('select-dirs-to', (event, arg) => {
+  toPath = dialog.showOpenDialog(win, {
+    properties: ['openDirectory']
+  })
 })
 
 ipcMain.on('getSettings', (event, arg) => {
   console.log(arg) // prints "ping"
+  event.returnValue = 'pong'
+})
+ipcMain.on('getSettings', (event, arg) => {
+  console.log(arg) // prints "ping" // passe
   event.reply('getSettings', 'bite')
+})
+*/
+/*
+ipcMain.on('asynchronous-message', (event, arg) => {
+  console.log(arg) // prints "ping"
+  event.reply('asynchronous-reply', 'pong')
 })
 
 ipcMain.on('resultSettings', (event, arg) => {
@@ -109,7 +145,5 @@ ipcMain.on('resultSettings', (event, arg) => {
   event.returnValue = 'pong'
 })
 
-ipcMain.on('getSettings', (event, arg) => {
-  console.log(arg) // prints "ping"
-  event.returnValue = 'pong'
-})
+
+*/
