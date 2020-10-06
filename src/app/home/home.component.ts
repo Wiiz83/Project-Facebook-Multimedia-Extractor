@@ -35,16 +35,20 @@ export class HomeComponent implements OnInit {
     console.log($event);
   }
 
-  openDialog(destination: string) {
+  openDialogTo() {
     if (this.electronService.isElectron) {
-
       (async () => {
-          const result = await this.electronService.ipcRenderer.invoke('select-dirs');
-          if (destination === 'from') {
-            this.pathFrom = result.filePaths[0];
-          } else if (destination === 'to') {
+          const result = await this.electronService.ipcRenderer.invoke('to-folder');
             this.pathTo = result.filePaths[0];
-          }
+      })();
+    }
+  }
+
+  openDialogFrom() {
+    if (this.electronService.isElectron) {
+      (async () => {
+          const result = await this.electronService.ipcRenderer.invoke('from-folder');
+            this.pathFrom = result.filePaths[0];
       })();
 
       /*
@@ -65,7 +69,11 @@ export class HomeComponent implements OnInit {
 
   doIt() {
     if (this.electronService.isElectron) {
-      this.electronService.ipcRenderer.send('transfert', this.extensions.filter(opt => opt.checked).map(opt => opt.id));
+        (async () => {
+          // this.extensions.filter(opt => opt.checked).map(opt => opt.id)
+          const result = await this.electronService.ipcRenderer.invoke('transfert');
+            this.pathFrom = result.filePaths[0];
+      })();
     }
   }
 }

@@ -84,20 +84,33 @@ try {
 
 const { ipcMain } = require('electron')
 const { dialog } = require('electron')
- 
-ipcMain.on('transfert', async (event, arg) => {
-  console.log(arg);
-  console.log(toPath);
-}) 
 
 let toPath;
+let fromPath;
 
-ipcMain.handle('select-dirs', async (event, arg) => {
-  let fromPath = await dialog.showOpenDialog(win, {
+ipcMain.handle('from-folder', async (event, arg) => {
+  fromPath = await dialog.showOpenDialog(win, {
     properties: ['openDirectory']
   });
   return fromPath;
 })
+
+ipcMain.handle('to-folder', async (event, arg) => {
+  toPath = await dialog.showOpenDialog(win, {
+    properties: ['openDirectory']
+  });
+  return toPath;
+})
+
+const fs = require('fs')
+
+ipcMain.handle('transfert', (event, arg) => {
+  console.log(fs);
+  let files = fs.readdirSync(fromPath.filePaths[0]);
+  console.log(files);
+  //return files.filter( file => file.match(new RegExp(`.*\.(${extension})`, 'ig')));
+}) 
+
 
 /*
 ipcMain.on('select-dirs', async (event, arg) => {

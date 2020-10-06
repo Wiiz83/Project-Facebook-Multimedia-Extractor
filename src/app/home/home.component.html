@@ -2,7 +2,7 @@
   <h1 class="title">
     {{ 'PAGES.HOME.TITLE' | translate }}
   </h1>
-  <button (click)="openDialog('from')">from</button>
+  <button (click)="openDialogFrom()">from</button>
   <span>{{pathFrom}}</span>
   <fieldset>
     <legend>Veuillez sélectionner les types de fichiers à extraire :</legend>
@@ -13,7 +13,7 @@
     </div>
     </div>
   </fieldset>
-  <button (click)="openDialog('to')">to</button>
+  <button (click)="openDialogTo()">to</button>
   <span>{{pathTo}}</span>
   <button (click)="doIt()">GO</button>
   <a routerLink="/detail">{{ 'PAGES.HOME.GO_TO_DETAIL' | translate }}</a>
