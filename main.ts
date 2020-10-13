@@ -103,14 +103,22 @@ ipcMain.handle('to-folder', async (event, arg) => {
 })
 
 const fs = require('fs')
+const glob = require("glob")
 
-ipcMain.handle('transfert', (event, arg) => {
-  console.log(fs);
-  let files = fs.readdirSync(fromPath.filePaths[0]);
-  console.log(files);
-  //return files.filter( file => file.match(new RegExp(`.*\.(${extension})`, 'ig')));
+ipcMain.handle('transfert', async (event, extensions) => {
+  const from = fromPath.filePaths[0];
+  // const resultFiles = new Map();
+  extensions.forEach(extension => {
+    const files = glob.sync(from + '/**/*.' + extension);
+    fs.mkdirSync(toPath.filePaths[0] + "/" + extension);
+    files.forEach(fichier => {
+      const filename = path.basename(fichier)
+      fs.copyFileSync(fichier, toPath.filePaths[0] + "/" + extension + "/" + filename);
+    });
+
+ });
+
 }) 
-
 
 /*
 ipcMain.on('select-dirs', async (event, arg) => {

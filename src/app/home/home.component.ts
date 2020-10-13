@@ -23,18 +23,6 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  test(){
-    if (this.electronService.isElectron) {
-      this.electronService.ipcRenderer.send('getSettings', 'caca');
-      this.electronService.ipcRenderer.on('resultSettings', (evt, args) => {
-      });
-    }
-  }
-
-  fromDirectoryChangeEvent($event) {
-    console.log($event);
-  }
-
   openDialogTo() {
     if (this.electronService.isElectron) {
       (async () => {
@@ -50,19 +38,6 @@ export class HomeComponent implements OnInit {
           const result = await this.electronService.ipcRenderer.invoke('from-folder');
             this.pathFrom = result.filePaths[0];
       })();
-
-      /*
-        this.electronService.ipcRenderer.send('select-dirs')
-        this.electronService.ipcRenderer.on('asynchronous-reply', (event, result) => {
-          debugger;
-          if (destination === 'from') {
-            this.pathFrom = result.filePaths[0];
-          } else if (destination === 'to') {
-            this.pathTo = result.filePaths[0];
-          }
-          debugger;
-        })
-        */
     }
   }
 
@@ -70,9 +45,8 @@ export class HomeComponent implements OnInit {
   doIt() {
     if (this.electronService.isElectron) {
         (async () => {
-          // this.extensions.filter(opt => opt.checked).map(opt => opt.id)
-          const result = await this.electronService.ipcRenderer.invoke('transfert');
-            this.pathFrom = result.filePaths[0];
+          const extensions = this.extensions.filter(opt => opt.checked).map(opt => opt.id)
+          await this.electronService.ipcRenderer.invoke('transfert', extensions);
       })();
     }
   }
