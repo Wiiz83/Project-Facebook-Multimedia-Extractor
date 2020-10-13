@@ -19,7 +19,8 @@ export class HomeComponent implements OnInit {
     this.extensions = [];
     this.extensions.push(
       {id: 'png', name: 'PNG', checked: false}, 
-      {id: 'jpg', name: 'JPG', checked: false}
+      {id: 'jpg', name: 'JPG', checked: false},
+      {id: 'mp4', name: 'MP4', checked: false}
     );
   }
 

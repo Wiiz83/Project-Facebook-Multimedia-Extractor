@@ -84,6 +84,8 @@ try {
 
 const { ipcMain } = require('electron')
 const { dialog } = require('electron')
+const fs = require('fs')
+const glob = require("glob")
 
 let toPath;
 let fromPath;
@@ -102,12 +104,8 @@ ipcMain.handle('to-folder', async (event, arg) => {
   return toPath;
 })
 
-const fs = require('fs')
-const glob = require("glob")
-
 ipcMain.handle('transfert', async (event, extensions) => {
   const from = fromPath.filePaths[0];
-  // const resultFiles = new Map();
   extensions.forEach(extension => {
     const files = glob.sync(from + '/**/*.' + extension);
     fs.mkdirSync(toPath.filePaths[0] + "/" + extension);
@@ -115,56 +113,5 @@ ipcMain.handle('transfert', async (event, extensions) => {
       const filename = path.basename(fichier)
       fs.copyFileSync(fichier, toPath.filePaths[0] + "/" + extension + "/" + filename);
     });
-
  });
-
 }) 
-
-/*
-ipcMain.on('select-dirs', async (event, arg) => {
-  dialog.showOpenDialog(win, {
-    properties: ['openDirectory']
-  }).then((filePaths) => {
-    event.sender.send('asynchronous-reply', filePaths);
-  });
-  //event.sender.send('asynchronous-reply', fromPath);
-})
-
-ipcMain.on('select-dirs-to', (event, arg) => {
-  toPath = dialog.showOpenDialog(win, {
-    properties: ['openDirectory']
-  })
-})
-
-ipcMain.on('getSettings', (event, arg) => {
-  console.log(arg) // prints "ping"
-  event.returnValue = 'pong'
-})
-ipcMain.on('getSettings', (event, arg) => {
-  console.log(arg) // prints "ping" // passe
-  event.reply('getSettings', 'bite')
-})
-*/
-/*
-ipcMain.on('asynchronous-message', (event, arg) => {
-  console.log(arg) // prints "ping"
-  event.reply('asynchronous-reply', 'pong')
-})
-
-ipcMain.on('resultSettings', (event, arg) => {
-  console.log(arg) // prints "ping"
-  event.reply('resultSettings', 'bite')
-})
-
-ipcMain.on('synchronous-message', (event, arg) => {
-  console.log(arg) // prints "ping"
-  event.returnValue = 'pong'
-})
-
-ipcMain.on('resultSettings', (event, arg) => {
-  console.log(arg) // prints "ping"
-  event.returnValue = 'pong'
-})
-
-
-*/
